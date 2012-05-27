@@ -1,0 +1,458 @@
+fun! MySys()
+   return "windows"
+endfun
+
+set nocompatible               " be iMproved
+filetype off                   " required!
+
+set rtp+=~/vimcfg.gyk001
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required!
+Bundle 'gmarik/vundle'
+
+" original repos on github
+Bundle 'mattn/zencoding-vim'
+Bundle 'drmingdrmer/xptemplate'
+Bundle 'Shougo/neocomplcache'
+Bundle 'majutsushi/tagbar'
+Bundle 'mattn/calendar-vim'
+Bundle 'vim-scripts/matrix.vim--Yang'
+Bundle 'scrooloose/nerdtree'
+Bundle 'vim-scripts/The-NERD-Commenter'
+Bundle 'vim-scripts/taglist.vim'
+Bundle 'gigelu/vim-javacomplete'
+Bundle 'vim-scripts/mru.vim'
+Bundle 'vim-scripts/css3-syntax-plus'
+Bundle 'edsono/vim-matchit'
+Bundle 'tpope/vim-fugitive'
+Bundle 'ekevin/jsbeautify'
+Bundle 'gyk001/jslint.vim'
+Bundle 'gyk001/vim-fullscreen'
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'chrismetcalf/vim-json'
+Bundle 'jelera/vim-javascript-syntax'
+
+" vim.org
+Bundle 'TxtBrowser'
+
+"插件中文文档（文件夹重名，不工作）
+Bundle 'vimcn/tagbar'
+
+" vim-scripts repos
+" Bundle 'Mark'
+" Bundle 'closetag.vim'
+" Bundle 'matchit.zip'
+" Bundle 'AutoComplPop'
+" Bundle 'jsbeautify'
+" Bundle 'YankRing.vim'
+
+filetype plugin indent on     " required!
+
+" set runtimepath=~/vim.gyk001,~/vim.gyk001/vim.neocp,~/vim.gyk001/vim.cs/,~/vim.gyk001/vim.ct/,~/vim.gyk001/vim.pl,$VIMRUNTIME,~/vim.gyk001/vim.after
+
+"指定在选择文本时，光标所在位置也属于被选中的范围。如果指定 selection=exclusive 的话，可能会出现某些文本无法被选中的情况。
+set selection=inclusive
+
+map <F3> :NERDTreeToggle<CR>
+imap <F3> <ESC>:NERDTreeToggle<CR>
+
+let g:tagbar_ctags_bin="~/vimcfg.gyk001/tools/ctags.exe"
+nmap <F8> :TagbarToggle<CR>
+
+" 不兼容VI键盘，使用vim键盘
+set nocompatible
+" shift键+方向键或鼠标实现选取
+set keymodel=startsel,stopsel
+" 80列高亮
+set cc=81
+" 文件类型识别
+filetype plugin on
+filetype indent on
+
+" 禁止生成临时文件
+set nobackup
+set noswapfile
+
+" 不折行
+set nowrap
+
+" 自动加载外部文件修改
+set autoread
+
+" leader键
+let mapleader = ","
+let g:mapleader = ","
+" 快速保存
+nmap <leader>w :w!<cr>
+
+" 快速修改配置，保存自动生效
+if MySys() == "windows"
+    map <leader>e :e! ~/vimcfg.gyk001/vimrc<cr>
+    autocmd! bufwritepost vimrc source ~/vimcfg.gyk001/vimrc
+else
+    map <leader>e :e! ~/.vim.gyk001/vimrc<cr>
+    autocmd! bufwritepost vimrc source ~/.vimcfg.gyk001/vimrc
+endif
+
+" 标在窗口上下边界时距离边界7行即开始滚屏
+"magic模式：除了$.*^之外其他元字符都要加反斜杠
+set magic
+
+"开启新行时使用智能自动缩进
+set smartindent
+"编辑过程中，右下角显示光标位置
+set so=7
+" 允许光标移动跨行
+set whichwrap+=<,>,[,],l,h
+" 历史记录数
+set history=500
+"关于缩进的相关说明
+"shiftwidth（缩进的空格数）
+"tabstop（制表符的宽度,只是把制表符的缩进量给改了，还是一个tab，所以跨平台时依旧会出现不一致）
+"expandtab（是否在缩进和遇到Tab键时使用空格替代，主要是保证跨平台时缩进的一致性；使用noexpandtab取消设置）
+"softtabstop（软制表符宽度，设置为非零数值后使用Tab键和Backspace时光标移动的格数等于该数值，但实际插入的字符仍受tabstop和expandtab控制）
+"autoindent（自动缩进，即每行的缩进值与上一行相等；使用noautoindent取消设置）
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+" 显示行号
+set nu
+
+" 高亮显示匹配的括号
+set showmatch
+
+" 搜索忽略大小写,智能大小写
+set ignorecase smartcase
+
+" 查找结果高亮度显示
+set hlsearch
+set incsearch
+
+
+
+" 设置编码
+set encoding=utf-8
+set fileencodings=utf-8,chinese,latin-1
+" 文件保存格式
+set fileformats=unix,dos,mac
+
+
+if has("win32")
+	"消除菜单乱码
+	source $VIMRUNTIME/delmenu.vim
+	source $VIMRUNTIME/menu.vim
+endif
+
+" 为了让vim能够默认以双字节处理那些特殊字符
+if v:lang =~? '^\(zh\)\|\(ja\)\|\(ko\)'
+    set ambiwidth=double
+endif
+" 退格键
+set backspace=eol,start,indent
+
+
+"在系统支持 wildmenu 特性启用文本模式的菜单
+if has('wildmenu')
+    "可用来改动补全时采用的方式
+    :set wildmode=list:full
+    "可用来改动补全时采用的方式
+    "可用来取得菜单式的匹配列表
+    :set wildmenu
+
+endif
+
+
+" tab字符
+set expandtab
+set shiftwidth=4
+set tabstop=4
+set smarttab
+
+" 让vim不要自动设置字节序标记
+set nobomb
+" 不响铃
+set noerrorbells
+set novisualbell
+
+
+if has("gui_running")
+    " 设置字体
+	if has("win32")
+    	set guifont=YaHei\ Mono:h12
+    	set guifontwide=YaHei\ Mono:h12
+	else
+    	set guifont=YaHei\ Mono\ 12
+    	set guifontwide=YaHei\ Mono\ 12
+	endif
+"	set gfw=Microsoft\ YaHei\ Mono\ 12
+    " 取消菜单栏，工具栏
+    "Toggle Menu and Toolbar
+    set guioptions-=m
+    set guioptions-=T
+    map <silent> <F2> :if &guioptions =~# 'T' <Bar>
+            \set guioptions-=T <Bar>
+            \set guioptions-=m <bar>
+        \else <Bar>
+            \set guioptions+=T <Bar>
+            \set guioptions+=m <Bar>
+        \endif<CR>
+    "配色
+    colorscheme evening
+	"set background=dark
+
+endif
+
+" 语法高亮
+syntax on
+
+
+" 消除状态栏乱码
+language message zh_CN.UTF-8
+
+"  In visual mode when you press * or # to search for the current selection
+vnoremap <silent> * :call VisualSelection('f')<CR>
+vnoremap <silent> # :call VisualSelection('b')<CR>
+
+" When you press gv you vimgrep after the selected text
+vnoremap <silent> gv :call VisualSelection('gv')<CR>
+
+" Some useful keys for vimgrep
+"智能补全
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType c set omnifunc=ccomplete#Complete
+autocmd FileType c set completefunc=ccomplete#Complete
+autocmd FileType java set omnifunc=javacomplete#Complete
+
+map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
+map <leader><space> :vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>
+
+" When you press <leader>r you can search and replace the selected text
+vnoremap <silent> <leader>r :call VisualSelection('replace')<CR>
+
+" 删除行尾空
+func! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
+autocmd BufWrite *.c :call DeleteTrailingWS()
+autocmd BufWrite *.cpp :call DeleteTrailingWS()
+autocmd BufWrite *.java :call DeleteTrailingWS()
+autocmd BufWrite *.py :call DeleteTrailingWS()
+autocmd BufWrite *.vim :call DeleteTrailingWS()
+autocmd BufWrite *.js :call DeleteTrailingWS()
+autocmd BufWrite *.css :call DeleteTrailingWS()
+autocmd BufWrite vimrc :call DeleteTrailingWS()
+
+""""""""""""""""""""""""""""""
+" => Statusline
+""""""""""""""""""""""""""""""
+" Always hide the statusline
+set laststatus=2
+"
+"" Format the statusline
+"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L%{GitBranch()}
+"
+"function! CurDir()
+"    let curdir = substitute(getcwd(), '/Users/Guo/', "~/", "g")
+"    return curdir
+"endfunction
+"
+"function! HasPaste()
+"    if &paste
+"        return 'PASTE MODE  '
+"    else
+"        return ''
+"    endif
+"endfunction
+
+" 切换目录
+cno $h e ~/
+cno $d c <C-\>eCurrentFileDir("e")<cr>
+cno $j e ./
+cno $c e <C-\>eCurrentFileDir("e")<cr>
+" $q is super useful when browsing on the command line
+cno $q <C-\>eDeleteTillSlash()<cr>
+
+" ctrl+导航键切换窗口
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" 按<leader>cd切换到当前缓存区所在目录
+map <leader>cd :cd %:p:h<cr>
+
+func! CurrentFileDir(cmd)
+  return a:cmd . " " . expand("%:p:h") . "/"
+endfunc
+
+func! DeleteTillSlash()
+  let g:cmd = getcmdline()
+  if MySys() == "linux" || MySys() == "mac"
+    let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
+  else
+    let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
+  endif
+  if g:cmd == g:cmd_edited
+    if MySys() == "linux" || MySys() == "mac"
+      let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
+    else
+      let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
+    endif
+  endif
+  return g:cmd_edited
+endfunc
+
+function! CmdLine(str)
+    exe "menu Foo.Bar :" . a:str
+    emenu Foo.Bar
+    unmenu Foo
+endfunction
+
+
+function! VisualSelection(direction) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+au BufRead,BufNewFile *.txt let Tlist_Sort_Type = "order"
+
+" TagList " 按照名称排序
+let Tlist_Sort_type = "name"
+" 如果只有一个Buffer，kill窗口时也kill掉buffer
+let Tlist_Exit_OnlyWindow = 1
+" 只显示一个文件的Tag
+let Tlist_Show_One_File=1
+" Tlist Auto Open
+" let Tlist_Auto_Open=1"
+
+
+" minibufexpl
+" let g:miniBufExplMapWindowNavVim = 1
+" let g:miniBufExplMapWindowNavArrows = 1
+" let g:miniBufExplMapCTabSwitchBufs = 1
+" let g:miniBufExplModSelTarget = 1
+
+
+""""""""""""""""""""""""""""""
+" => JavaScript section
+"""""""""""""""""""""""""""""""
+au FileType javascript call JavaScriptFold()
+au FileType javascript setl fen
+au FileType javascript setl nocindent
+" au FileType javascript imap <c-t> console.log();<esc>hi
+" au FileType javascript imap <c-a> alert();<esc>hi
+" au FileType javascript inoremap <buffer> $r return
+" au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
+
+function! JavaScriptFold()
+    setl foldmethod=syntax
+    setl foldlevelstart=1
+    syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
+
+    function! FoldText()
+        return substitute(getline(v:foldstart), '{.*', '{...}', '')
+    endfunction
+    setl foldtext=FoldText()
+endfunction
+
+" 显示Tab符
+set list
+set listchars=tab:\|\ ,trail:.,extends:>,precedes:<
+
+" 修改TAB 和行尾空白字符的颜色
+highlight SpecialKey guifg=DarkGray
+"blank      空白
+"buffers    缓冲区
+"curdir,sesdir 当前目录不希望在session文件中保存当前路径，
+"            而是希望session文件所在的目录自动成为当前工作目录，
+"            那么，需要在‘sessionoptions’去掉‘curdir’,加入‘sesdir’,
+"            这样每次载入session件时，此文件所在的目录就被设为vim的当前工作目录
+"folds      折叠
+"help       帮助
+"options    选项
+"tabpages   选项卡
+"winsize    窗口大小
+"slash      转换文件路径中的\为/以使session文件兼容unix
+"unix       设置session文件中的换行模式为unix
+set sessionoptions=blank,buffers,sesdir,folds,help,options,tabpages,winsize,slash,unix,resize
+
+
+" vim73自带的diff
+set diffexpr=MyDiff()
+function! MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let eq = ''
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      let cmd = '""' . $VIMRUNTIME . '\diff"'
+      let eq = '"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+endfunction
+
+
+"Alt组合键不映射到菜单上,不管用
+set winaltkeys=no
+" 自动补全
+imap <M-/> <C-X><C-O>
+
+
+
+
+let MRU_Max_Entries = 1000
+" let g:Powerline_theme = 'skwp'
+let g:Powerline_colorscheme = 'skwp'
+
+
+" 设置中文帮助
+set helplang=cn
+
+" 按语法折叠
+set foldmethod=syntax
+" 空格键开关折叠
+nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+
+"启动时不显示 捐赠提示
+set shortmess=atI
+let g:neocomplcache_enable_at_startup=1
+set helplang=cn
