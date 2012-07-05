@@ -31,8 +31,10 @@ Bundle 'ekevin/jsbeautify'
 Bundle 'gyk001/jslint.vim'
 Bundle 'gyk001/vim-fullscreen'
 Bundle 'Lokaltog/vim-powerline'
-Bundle 'chrismetcalf/vim-json'
+"Bundle 'chrismetcalf/vim-json'
 Bundle 'jelera/vim-javascript-syntax'
+"Bundle 'vim-scripts/JSON.vim'
+Bundle 'gyk001/vim-rst-tables'
 
 " vim.org
 Bundle 'TxtBrowser'
@@ -136,12 +138,13 @@ set incsearch
 
 " 设置编码
 set encoding=utf-8
+set termencoding=GBK
 set fileencodings=utf-8,chinese,latin-1
 " 文件保存格式
 set fileformats=unix,dos,mac
 
 
-if has("win32")
+if MySys()=="windows"
 	"消除菜单乱码
 	source $VIMRUNTIME/delmenu.vim
 	source $VIMRUNTIME/menu.vim
@@ -181,7 +184,7 @@ set novisualbell
 
 if has("gui_running")
     " 设置字体
-	if has("win32")
+	if MySys()=="windows"
     	set guifont=YaHei\ Mono:h12
     	set guifontwide=YaHei\ Mono:h12
 	else
@@ -220,18 +223,20 @@ vnoremap <silent> # :call VisualSelection('b')<CR>
 " When you press gv you vimgrep after the selected text
 vnoremap <silent> gv :call VisualSelection('gv')<CR>
 
-" Some useful keys for vimgrep
 "智能补全
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-autocmd FileType c set omnifunc=ccomplete#Complete
-autocmd FileType c set completefunc=ccomplete#Complete
-autocmd FileType java set omnifunc=javacomplete#Complete
+augroup complete_au
+    autocmd!
+    au FileType python set omnifunc=pythoncomplete#Complete
+    au FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+    au FileType html set omnifunc=htmlcomplete#CompleteTags
+    au FileType css set omnifunc=csscomplete#CompleteCSS
+    au FileType xml set omnifunc=xmlcomplete#CompleteTags
+    au FileType php set omnifunc=phpcomplete#CompletePHP
+    au FileType c set completefunc=ccomplete#Complete
+    au FileType java set omnifunc=javacomplete#Complete
+augroup END
 
+" Some useful keys for vimgrep
 map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
 map <leader><space> :vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>
 
@@ -244,44 +249,32 @@ func! DeleteTrailingWS()
   %s/\s\+$//ge
   exe "normal `z"
 endfunc
-autocmd BufWrite *.c :call DeleteTrailingWS()
-autocmd BufWrite *.cpp :call DeleteTrailingWS()
-autocmd BufWrite *.java :call DeleteTrailingWS()
-autocmd BufWrite *.py :call DeleteTrailingWS()
-autocmd BufWrite *.vim :call DeleteTrailingWS()
-autocmd BufWrite *.js :call DeleteTrailingWS()
-autocmd BufWrite *.css :call DeleteTrailingWS()
-autocmd BufWrite vimrc :call DeleteTrailingWS()
+
+augroup trail_ws_au
+    autocmd!
+    au BufWrite *.c :call DeleteTrailingWS()
+    au BufWrite *.cpp :call DeleteTrailingWS()
+    au BufWrite *.java :call DeleteTrailingWS()
+    au BufWrite *.py :call DeleteTrailingWS()
+    au BufWrite *.vim :call DeleteTrailingWS()
+    au BufWrite *.js :call DeleteTrailingWS()
+    au BufWrite *.css :call DeleteTrailingWS()
+    au BufWrite vimrc :call DeleteTrailingWS()
+    au BufWrite *.conf :call DeleteTrailingWS()
+augroup END
 
 """"""""""""""""""""""""""""""
 " => Statusline
 """"""""""""""""""""""""""""""
 " Always hide the statusline
 set laststatus=2
-"
-"" Format the statusline
-"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L%{GitBranch()}
-"
-"function! CurDir()
-"    let curdir = substitute(getcwd(), '/Users/Guo/', "~/", "g")
-"    return curdir
-"endfunction
-"
-"function! HasPaste()
-"    if &paste
-"        return 'PASTE MODE  '
-"    else
-"        return ''
-"    endif
-"endfunction
 
 " 切换目录
 cno $h e ~/
-cno $d c <C-\>eCurrentFileDir("e")<cr>
-cno $j e ./
 cno $c e <C-\>eCurrentFileDir("e")<cr>
-" $q is super useful when browsing on the command line
-cno $q <C-\>eDeleteTillSlash()<cr>
+func! CurrentFileDir(cmd)
+  return a:cmd . " " . expand("%:p:h") . "/"
+endfunc
 
 " ctrl+导航键切换窗口
 map <C-j> <C-W>j
@@ -291,34 +284,6 @@ map <C-l> <C-W>l
 
 " 按<leader>cd切换到当前缓存区所在目录
 map <leader>cd :cd %:p:h<cr>
-
-func! CurrentFileDir(cmd)
-  return a:cmd . " " . expand("%:p:h") . "/"
-endfunc
-
-func! DeleteTillSlash()
-  let g:cmd = getcmdline()
-  if MySys() == "linux" || MySys() == "mac"
-    let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
-  else
-    let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
-  endif
-  if g:cmd == g:cmd_edited
-    if MySys() == "linux" || MySys() == "mac"
-      let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
-    else
-      let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
-    endif
-  endif
-  return g:cmd_edited
-endfunc
-
-function! CmdLine(str)
-    exe "menu Foo.Bar :" . a:str
-    emenu Foo.Bar
-    unmenu Foo
-endfunction
-
 
 function! VisualSelection(direction) range
     let l:saved_reg = @"
@@ -341,8 +306,8 @@ function! VisualSelection(direction) range
     let @" = l:saved_reg
 endfunction
 
-au BufRead,BufNewFile *.txt let Tlist_Sort_Type = "order"
 
+au BufRead,BufNewFile *.txt let Tlist_Sort_Type = "order"
 " TagList " 按照名称排序
 let Tlist_Sort_type = "name"
 " 如果只有一个Buffer，kill窗口时也kill掉buffer
@@ -436,9 +401,6 @@ set winaltkeys=no
 " 自动补全
 imap <M-/> <C-X><C-O>
 
-
-
-
 let MRU_Max_Entries = 1000
 " let g:Powerline_theme = 'skwp'
 let g:Powerline_colorscheme = 'skwp'
@@ -454,5 +416,69 @@ nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 
 "启动时不显示 捐赠提示
 set shortmess=atI
+" 开启自动补全
 let g:neocomplcache_enable_at_startup=1
 set helplang=cn
+" tags
+set tags=tags;
+set autochdir
+
+au! BufRead,BufNewFile *.json set filetype=json
+augroup json_autocmd
+  autocmd!
+  autocmd FileType json set autoindent
+  autocmd FileType json set formatoptions=tcq2l
+  autocmd FileType json set textwidth=78 shiftwidth=2
+  autocmd FileType json set softtabstop=2 tabstop=8
+  autocmd FileType json set expandtab
+  autocmd FileType json set foldmethod=syntax
+augroup END
+
+" 用chrome打开当前文件,需要把chrome添加到环境变量
+nnoremap <leader>b  :silent! !chrome %<CR>
+
+
+" 提取文章标题
+com! -bar TOC call TOC()
+fun! TOC()
+    call setloclist(0, [])
+    let save_cursor = getpos(".")
+    call cursor(1, 1)
+    let flag = 'cW'
+    while search("^#", flag) > 0
+        let flag = 'W'
+        let msg = printf('%s:%d:%s', expand('%'), line('.'), substitute(getline('.'), '#', '»', 'g'))
+        laddexpr msg
+    endwhile
+    call setpos('.', save_cursor)
+    silent! call ToggleLocationList()
+endfun
+
+"java 文件编译
+augroup java_autocmd
+    autocmd!
+    " java编译器
+    au FileType java compiler javac
+    au Filetype java set makeprg=javac\ %
+    set errorformat=%A%f:%l:\ %m,%-Z%p^,%-C%.%#
+augroup END
+
+" 编译并弹出错误窗口，
+" :cnext :cprev 可在最近的错误记录之间轮转
+map <F9> :make<Return>:copen<Return><Return>
+
+" 编译器信息quickFix转码
+" 可用用实现自动转码 au QuickfixCmdPost make call QfMakeConv()
+function! QFConv()
+   let qflist = getqflist()
+   for i in qflist
+      let i.text = iconv(i.text, "cp936", "utf-8")
+   endfor
+   call setqflist(qflist)
+endfunction
+
+if MySys()=="windows"
+    set errorformat=%A%f:%l:\ %m,%-Z%p^,%-C%.%#
+    "目前还不知道在linux等平台下是否乱码
+    au QuickfixCmdPost make call QFConv()
+endif
