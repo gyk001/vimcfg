@@ -482,3 +482,6 @@ if MySys()=="windows"
     "目前还不知道在linux等平台下是否乱码
     au QuickfixCmdPost make call QFConv()
 endif
+
+au BufRead,BufNewFile nginx.conf set ft=nginx
+au BufRead,BufNewFile /usr/local/nginx/conf/* set ft=nginx
