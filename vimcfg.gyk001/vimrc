@@ -435,7 +435,7 @@ augroup json_autocmd
 augroup END
 
 " 用chrome打开当前文件,需要把chrome添加到环境变量
-nnoremap <leader>b  :silent! !chrome %<CR>
+"nnoremap <leader>b  :silent! !chrome %<CR>
 
 
 " 提取文章标题
@@ -482,3 +482,7 @@ if MySys()=="windows"
     "目前还不知道在linux等平台下是否乱码
     au QuickfixCmdPost make call QFConv()
 endif
+
+
+au BufRead,BufNewFile nginx.conf set ft=nginx
+au BufRead,BufNewFile /usr/local/nginx/conf/* set ft=nginx
