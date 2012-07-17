@@ -483,6 +483,5 @@ if MySys()=="windows"
     au QuickfixCmdPost make call QFConv()
 endif
 
-
 au BufRead,BufNewFile nginx.conf set ft=nginx
 au BufRead,BufNewFile /usr/local/nginx/conf/* set ft=nginx
