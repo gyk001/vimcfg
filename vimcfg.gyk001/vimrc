@@ -90,8 +90,8 @@ if MySys() == "windows"
     map <leader>e :e! ~/vimcfg.gyk001/vimrc<cr>
     autocmd! bufwritepost vimrc source ~/vimcfg.gyk001/vimrc
 else
-    map <leader>e :e! ~/.vim.gyk001/vimrc<cr>
-    autocmd! bufwritepost vimrc source ~/.vimcfg.gyk001/vimrc
+    map <leader>e :e! ~/vim.gyk001/vimrc<cr>
+    autocmd! bufwritepost vimrc source ~/vimcfg.gyk001/vimrc
 endif
 
 " 标在窗口上下边界时距离边界7行即开始滚屏
