@@ -86,13 +86,8 @@ let g:mapleader = ","
 nmap <leader>w :w!<cr>
 
 " 快速修改配置，保存自动生效
-if MySys() == "windows"
-    map <leader>e :e! ~/vimcfg.gyk001/vimrc<cr>
-    autocmd! bufwritepost vimrc source ~/vimcfg.gyk001/vimrc
-else
-    map <leader>e :e! ~/vim.gyk001/vimrc<cr>
-    autocmd! bufwritepost vimrc source ~/vimcfg.gyk001/vimrc
-endif
+map <leader>e :e! ~/vimcfg.gyk001/vimrc<cr>
+autocmd! bufwritepost vimrc source ~/vimcfg.gyk001/vimrc
 
 " 标在窗口上下边界时距离边界7行即开始滚屏
 "magic模式：除了$.*^之外其他元字符都要加反斜杠
