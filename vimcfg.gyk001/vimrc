@@ -134,16 +134,22 @@ set incsearch
 
 " 设置编码
 set encoding=utf-8
-set termencoding=GBK
+if MySys()=="windows"
+    set termencoding=GBK
+else
+    set termencoding=UTF-8
+endif
 set fileencodings=utf-8,chinese,latin-1
 " 文件保存格式
 set fileformats=unix,dos,mac
 
 
 if MySys()=="windows"
-	"消除菜单乱码
-	source $VIMRUNTIME/delmenu.vim
-	source $VIMRUNTIME/menu.vim
+    if has("gui_running")
+    	"消除菜单乱码
+    	source $VIMRUNTIME/delmenu.vim
+    	source $VIMRUNTIME/menu.vim
+    endif
 endif
 
 " 为了让vim能够默认以双字节处理那些特殊字符
