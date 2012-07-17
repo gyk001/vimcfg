@@ -48,10 +48,11 @@ Bundle 'vimcn/tagbar'
 
 filetype plugin indent on     " required!
 
-" set runtimepath=~/vim.gyk001,~/vim.gyk001/vim.neocp,~/vim.gyk001/vim.cs/,~/vim.gyk001/vim.ct/,~/vim.gyk001/vim.pl,$VIMRUNTIME,~/vim.gyk001/vim.after
-
-"指定在选择文本时，光标所在位置也属于被选中的范围。如果指定 selection=exclusive 的话，可能会出现某些文本无法被选中的情况。
+" 指定在选择文本时，光标所在位置也属于被选中的范围。
+" 如果指定 selection=exclusive 的话，可能会出现某些文本无法被选中的情况。
 set selection=inclusive
+" 鼠标支持
+set mouse=a
 
 map <F3> :NERDTreeToggle<CR>
 imap <F3> <ESC>:NERDTreeToggle<CR>
@@ -59,8 +60,6 @@ imap <F3> <ESC>:NERDTreeToggle<CR>
 let g:tagbar_ctags_bin="~/vimcfg.gyk001/tools/ctags.exe"
 nmap <F8> :TagbarToggle<CR>
 
-" 不兼容VI键盘，使用vim键盘
-set nocompatible
 " shift键+方向键或鼠标实现选取
 set keymodel=startsel,stopsel
 " 80列高亮
@@ -72,6 +71,10 @@ filetype indent on
 " 禁止生成临时文件
 set nobackup
 set noswapfile
+" 重启后撤销历史可用 persistent undo
+set undofile
+set undodir=~/.vimundodir
+set undolevels=1000 "maximum number of changes that can be undone
 
 " 不折行
 set nowrap
@@ -480,5 +483,11 @@ if MySys()=="windows"
     au QuickfixCmdPost make call QFConv()
 endif
 
+" nginx
 au BufRead,BufNewFile nginx.conf set ft=nginx
 au BufRead,BufNewFile /usr/local/nginx/conf/* set ft=nginx
+
+" 记录文件状态
+autocmd BufWinLeave * if expand('%') != '' && &buftype == '' | mkview | endif
+autocmd BufRead     * if expand('%') != '' && &buftype == '' | silent loadview | syntax on | endif
+
