@@ -56,8 +56,12 @@ set mouse=a
 
 map <F3> :NERDTreeToggle<CR>
 imap <F3> <ESC>:NERDTreeToggle<CR>
+if MySys()=="windows"
+    let g:tagbar_ctags_bin="$HOME/vimcfg.gyk001/tools/ctags.exe"
+else
+    let g:tagbar_ctags_bin="~/vimcfg.gyk001/tools/ctags"
+endif
 
-let g:tagbar_ctags_bin="~/vimcfg.gyk001/tools/ctags.exe"
 nmap <F8> :TagbarToggle<CR>
 
 " shift键+方向键或鼠标实现选取
