@@ -189,8 +189,8 @@ set novisualbell
 if has("gui_running")
     " 设置字体
 	if MySys()=="windows"
-    	set guifont=YaHei\ Mono:h12
-    	set guifontwide=YaHei\ Mono:h12
+    	set guifont=Microsoft\ YaHei\ Mono:h12
+    	set guifontwide=Microsoft\ YaHei\ Mono:h12
 	else
     	set guifont=YaHei\ Mono\ 12
     	set guifontwide=YaHei\ Mono\ 12
