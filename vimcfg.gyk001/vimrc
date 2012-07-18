@@ -66,8 +66,6 @@ nmap <F8> :TagbarToggle<CR>
 
 " shift键+方向键或鼠标实现选取
 set keymodel=startsel,stopsel
-" 80列高亮
-set cc=81
 " 文件类型识别
 filetype plugin on
 filetype indent on
@@ -75,10 +73,14 @@ filetype indent on
 " 禁止生成临时文件
 set nobackup
 set noswapfile
-" 重启后撤销历史可用 persistent undo
-set undofile
-set undodir=~/.vimundodir
-set undolevels=1000 "maximum number of changes that can be undone
+if v:version>=730
+    " 80列高亮
+    set cc=81
+    " 重启后撤销历史可用 persistent undo
+    set undofile
+    set undodir=~/.vimundodir
+    set undolevels=1000 "maximum number of changes that can be undone
+endif
 
 " 不折行
 set nowrap
