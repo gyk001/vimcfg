@@ -1,0 +1,30 @@
+[alias]
+    go = "! bash -c \"git pull && git add .; if [ \\\"$*\\\" == \\\"\\\" ]; then git commit -a; else git commit -am \\\"$*\\\"; fi; git push origin master:your-id;\""
+[core]
+	editor = vim
+	symlinks = false
+	autocrlf = false
+[color]
+	ui = true
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = true
+[pack]
+	packSizeLimit = 2g
+[help]
+	format = html
+[http]
+	sslCAinfo = /mingw/bin/curl-ca-bundle.crt
+[sendemail]
+	smtpserver = /mingw/bin/msmtp.exe
+
+[diff "astextplain"]
+	textconv = astextplain
+[rebase]
+	autosquash = true
+[user]
+    email = gyk001@gmail.com
+    name = gyk001
+[gui]
+    encoding = utf-8

@@ -1,0 +1,31 @@
+Recent/
+PrintHood/
+AppData/
+Application\ Data/
+Cookies/
+Desktop/
+Local\ Settings/
+My\ Documents/
+NetHood/
+SendTo/
+Templates/
+NTUSER.DAT*
+ntuser.*
+.neocon/
+.ssh/
+.vim/
+Contacts/
+Documents/
+Downloads/
+Favorites/
+Links/
+Music/
+Pictures/
+Saved Games/
+Searches/
+Videos/
+Vim/
+_vim_mru_files
+_viminfo
+tr.log
+trr.txt
