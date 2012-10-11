@@ -1,5 +1,5 @@
 fun! MySys()
-   return "windows"
+   return "linux"
 endfun
 
 source ~/vimcfg.gyk001/vimrc

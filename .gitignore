@@ -63,6 +63,7 @@ trr.txt
 .tencent/
 .thumbnails/
 .viminfo
+.vim_mru_files
 .virt-manager/
 .xinputrc
 .xsession-errors
