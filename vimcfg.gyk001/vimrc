@@ -34,6 +34,7 @@ Bundle 'gyk001/vim-rst-tables'
 
 " vim.org
 Bundle 'TxtBrowser'
+Bundle 'sudo.vim'
 
 "插件中文文档（文件夹重名，不工作）
 Bundle 'vimcn/tagbar'
@@ -418,7 +419,7 @@ imap <M-/> <C-X><C-O>
 
 let MRU_Max_Entries = 1000
 " let g:Powerline_theme = 'skwp'
-let g:Powerline_colorscheme = 'skwp'
+" let g:Powerline_colorscheme = 'skwp'
 
 
 " 设置中文帮助
